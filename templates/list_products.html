@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% extends 'base.html' %}
+    {% load static %}
+<head>
+    {% block head %}
+        <title>PRODUCTOS</title>
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+        <div clasS="mt-5">
+            <div>
+                <h4 class="fw-bold">ABM PRODUCTO</h4>
+                <div>
+                    {% for message in messages %}
+                        <p class="text-danger fw-bold text-center" id="messages">{{ message }}</p>
+                    {% endfor %}
+                </div>
+                <div style="width: 300px;">
+                    <form method="POST" class="w3-light-grey" id="form_product" onsubmit="confirm_submit()">
+                        {% csrf_token %}
+                        <div class="mb-1 mt-1 me-1 ms-1">
+                            <label>Id</label>
+                            <input class="form-control form-control-sm w-100" id="product_id" name="product_id" readonly/>
+                            {{ product_form.as_table }}
+                            <div class="text-end">
+                                <button class="btn btn-danger mt-2" id="btn_delete" name="btn_delete" hidden>ELIMINAR</button>
+                                <button class="btn btn-primary mt-2" id="btn_save" name="btn_save">GUARDAR</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <hr class="border border-primary">
+            </div>
+            <div class="mt-3">
+                <input class="form-control w-100 mb-3 fw-bold" id="input_search" placeholder="Buscar Producto" onkeyup="search_item('tbl_products')"/>
+                <table class="table w-100" id="tbl_products">
+                    <thead>
+                        <th>Id.</th>
+                        <th>PRODUCTO</th>
+                        <th>MODELO</th>
+                        <th>TIPO</th>
+                        <th>AÑO</th>
+                        <th>PRECIO</th>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr id="{{ product.id }}" onmouseover="ChangeRowColor(this, true);" onmouseout="ChangeRowColor(this, false);" ondblclick="edit_product(this.id)">
+                            <td>{{ product.id }}</td>
+                            <td>{{ product.product_name }}</td>
+                            <td>{{ product.model }}</td>
+                            <td>{{ product.type }}</td>
+                            <td>{{ product.year }}</td>
+                            <td>{{ product.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endblock %}
+</body>
+</html>
